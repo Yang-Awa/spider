@@ -1,6 +1,7 @@
 package edu.csuft.wxy.spider;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -30,11 +31,19 @@ public class App {
 //			class前需要加“.”
 			System.out.println(es.size());
 			
+			//创建一个存储影片的列表
+			ArrayList<Film> list = new ArrayList<>();
+			
 			for(Element e :es) {
+				Film f = new Film();
 //				每一部影片
 			Element t=e.select(".title").first();
 			String num=e.select(".star span").last().text();
 				System.out.println(t.text()+","+num);
+				
+				//f.id
+				//f.title
+				list.add(f);
 			}
 			
 //			String title=doc.title();
