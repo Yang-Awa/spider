@@ -36,14 +36,14 @@ public class App2 {
 			System.out.println(es.size());
 			
 			//创建一个存储影片的列表
-			ArrayList<Film> list = new ArrayList<>();
+//			ArrayList<Film> list = new ArrayList<>();
 			
 			for(Element e :es) {
-				Film f = new Film();
+//				Film f = new Film();
 ////				每一部影片
 			Element t=e.select(".pl2 a").first();
-//			String num=e.select(".star span").last().text();
-				System.out.println(t.text());
+			String num=e.select(".pl2 .pl").first().text();
+				System.out.println(t.text()+"，"+num);
 				
 //				f.id=Integer.parseInt(e.select(".pic em").first().text());
 //				f.poster = e.select("img").first().attr("src");

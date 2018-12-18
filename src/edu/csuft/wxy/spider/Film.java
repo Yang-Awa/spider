@@ -1,52 +1,66 @@
 package edu.csuft.wxy.spider;
 
 /**
- * 影片
+ * 褰辩墖
  * @author 19812
  *
  */
 
-public class Film {
+public class Film implements Comparable<Film>{
 	
 	/**
-	 * 影片名称
+	 * 鍚嶇О
 	 */
     String title;
     
     /**
-           * 相关信息
+           * 鐩稿叧淇℃伅
      */
     String info;
     
     /**
-           * 评分
+           *璇勫垎
      */
     double rating;
     
     /**
-           * 评分人数
+           *璇勫垎浜烘暟
      */
     int num;
     
     /**
-           *  排名
+           *鎺掑悕
      */
     int id;
     
     /**
-           * 海报
+           *娴锋姤
      */
     String poster;
     
     /**
-           *  短评
+           *鐭瘎
      */
     String quote;
+    
+    public String toCSV() {
+    	return String.format("%d,%s,%d,%.1f\n", 
+    			id,
+    			title,
+    			num,
+    			rating);
+    }
 
 	@Override
 	public String toString() {
 		return "Film [title=" + title + ", info=" + info + ", rating=" + rating + ", num=" + num + ", id=" + id
 				+ ", poster=" + poster + ", quote=" + quote + "]";
+	}
+
+	@Override
+	public int compareTo(Film o) {
+		
+		return id - o.id;
 	}
     
     
