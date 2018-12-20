@@ -1,10 +1,16 @@
 package edu.csuft.wxy.spider;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 /**
  * 程序的入口/起点
@@ -47,14 +53,42 @@ public class App {
 		Collections.sort(list);
 		System.out.println(list.size());
 				
-		ExecutorService pool2 = Executors.newFixedThreadPool(4);
-		
-		for(Film film:list) {
-			System.out.println(film.url);
-			pool2.execute(new SpiderFilmDetail(film.url,null));
+		//导入数据库中
+		//myBatis/iBatis
+		try {
+			SqlSessionFactory factory = new SqlSessionFactoryBuilder()
+					.build(Resources.getResourceAsStream("conlig.xml"));
+			//打开会话
+			SqlSession session = factory.openSession();
+			
+			//动态代理
+			FilmMapper mapper = (FilmMapper) session.getMapper(FilmMapper.class);
+			
+			for (Film f : list) {
+				//使用注解中INSERT语句存储到数据库
+				mapper.save(f);
+			}
+			
+			session.commit();
+			session.close();
+			System.out.println("完成存储");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-//		//写入文件
+		
+		
+//		ExecutorService pool2 = Executors.newFixedThreadPool(4);
+//		
+//		for(Film film:list) {
+//			System.out.println(film.url);
+//			pool2.execute(new SpiderFilmDetail(film.url,null));
+//		}
+//		pool2.shutdown();
+		
+//		//写入文件 电子表格兼容模式
 //		String file = "d:/film.csv";    //绝对路径
 //		file = "film.csv";              //当前位置
 //		//排序
